@@ -1,0 +1,24 @@
+{
+    "name": "sonyatv/composer-plugin-vcschecker",
+    "description": "Checks VCS definitions in composer.json to ensure it does not contain any file:/// URLs",
+    "type": "composer-plugin",
+    "require": {
+        "composer-plugin-api": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "SonyATV\\Composer\\Plugins\\": "src/SonyATV/Composer/Plugins"
+        }
+    },
+    "extra": {
+        "class": [
+            "SonyATV\\Composer\\Plugins\\VCSCheckerPlugin"
+        ]
+    },
+    "authors": [
+        {
+            "name": "Stephen Leavitt",
+            "email": "stephen.leavitt@sonyatv.com"
+        }
+    ]
+}
