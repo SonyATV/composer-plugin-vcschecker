@@ -36,10 +36,28 @@ class VCSCheckerPlugin implements PluginInterface, EventSubscriberInterface
         $output = $event->getOutput();
 
         if ($command == 'status') {
-            $output->writeln('The "composer status" command was invoked.');
-        }
-        if ($command == 'validate') {
-            $output->writeln('The "composer validate" command was invoked.');
+            $repos = array();
+
+            foreach ($this->composer->getConfig()->getRepositories() as $key => $repository) {
+                if ($repository['type'] == 'vcs') {
+                    $protocol = parse_url($repository['url'], PHP_URL_SCHEME);
+
+                    if ($protocol == 'file') {
+                        $repos[] = $repository['url'];
+                    }                   
+                }
+            }
+
+            if (!empty($repos)) {
+                $this->io->writeError('[composer-plugin-vcschecker: Warning]');
+                $this->io->writeError('The following file protocol URLs were detected in the composer.json repositories section:');
+
+                foreach ($repos as $repo) {
+                    $this->io->writeError('  '.$repo);
+                }
+
+                $this->io->writeError('Please correct the URLs to point to their correct remote location.');
+            }
         }
     }
 }
