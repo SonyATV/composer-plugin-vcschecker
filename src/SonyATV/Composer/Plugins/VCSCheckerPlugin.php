@@ -49,15 +49,16 @@ class VCSCheckerPlugin implements PluginInterface, EventSubscriberInterface
             }
 
             if (!empty($repos)) {
-                $this->io->writeError('<error>[composer-plugin-vcschecker: Warning]</error>');
-                $this->io->writeError('<error>The following file protocol URLs were detected in the composer.json repositories section</error>:');
+                $this->io->write('[composer-plugin-vcschecker: Begin]');
+                $this->io->write('<error>The following file protocol URLs were detected in the composer.json repositories section:</error>');
 
                 $indentedRepos = implode("\n", array_map(function ($line) {
                     return '    ' . ltrim($line);
                 }, $repos));
                 $this->io->write($indentedRepos);
 
-                $this->io->writeError('<error>Please correct the URLs to point to their correct remote location.</error>');
+                $this->io->write('<error>Please correct the URLs to point to their correct remote location.</error>');
+                $this->io->write('[composer-plugin-vcschecker: End]');
 
                 $this->io->writeError('');
             }
